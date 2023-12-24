@@ -1,8 +1,9 @@
 const express = require("express");
-const { default: mongoose } = require("mongoose");
-const monoose = require("mongoose");
+const mongoose = require("mongoose");
 const app = express();
-
+const product = require("./routes/Product");
+const user = require("./routes/user");
+const auth = require("./routes/auth");
 mongoose
   .connect("mongodb://0.0.0.0:27017/gebeyaye")
   .then(() => {
@@ -13,6 +14,9 @@ mongoose
   });
 
 app.use(express.json());
+app.use("/api/products", product);
+app.use("/api/user", user);
+app.use("/api/auth", auth);
 
 const PORT = 3000;
 app.listen(PORT, () => {
