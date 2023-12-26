@@ -13,6 +13,8 @@ router.get("/", auth, getCartItem);
 // Route to create a new product
 router.post("/", auth, addCartItem);
 
+router.put("/:id", auth);
+
 //router to remove one product
 router.delete("/:productId", auth, removeCartItem);
 

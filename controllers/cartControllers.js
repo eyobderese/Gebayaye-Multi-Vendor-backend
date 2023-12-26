@@ -1,5 +1,4 @@
 const { User } = require("../models/User");
-const mongoose = require("mongoose");
 
 const getCartItem = async (req, res) => {
   try {
@@ -71,7 +70,7 @@ const removeCartItem = async (req, res) => {
 
     // Find the index of the product in the user's cart
     const cartItemIndex = user.cart.findIndex(
-      (item) => item.product.toString() === productIdToRemove
+      (item) => item.product == productIdToRemove
     );
 
     if (cartItemIndex === -1) {
@@ -91,8 +90,6 @@ const removeCartItem = async (req, res) => {
     res.status(500).send({ error: "Internal Server Error" });
   }
 };
-
-// Other methods...
 
 module.exports = {
   removeCartItem,
