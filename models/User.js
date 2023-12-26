@@ -44,7 +44,6 @@ const UserSchema = new mongoose.Schema({
       product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
-        default: [],
       },
       quantity: {
         type: Number,
