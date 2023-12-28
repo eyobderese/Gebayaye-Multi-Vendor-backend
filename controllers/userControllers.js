@@ -5,7 +5,7 @@ const userRegister = async (req, res) => {
   try {
     const validateResult = UserValidater(req.body);
     if (validateResult.error) {
-      return res.status(400).send(validationResult.error.details[0].message);
+      return res.status(400).send(validateResult.error.details[0].message);
     }
 
     const { name, username, phone, email, password, role } =
@@ -24,6 +24,11 @@ const userRegister = async (req, res) => {
       password,
       role,
     });
+
+    if (req.file) {
+      user.file = req.file.path;
+    }
+
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
 
@@ -31,13 +36,13 @@ const userRegister = async (req, res) => {
     const token = user.generetAuthToken();
     res.header("x-auth-token", token).send({ name, username });
   } catch (error) {
-    console.error("Error creating product:", error);
+    console.error("Error creating User:", error);
     res.status(500).send("Internal Server Error");
   }
 };
 
 const getUser = async (req, res) => {
-  const userId = req.params.id;
+  const userId = req.user._id;
   const user = await User.find({ _id: userId });
   res.send(user);
 };

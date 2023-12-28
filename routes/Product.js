@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const upload = require("../middleware/Upload");
 const {
   modifyProduct,
   createProduct,
@@ -7,6 +8,7 @@ const {
   getAllProduct,
   getProduct,
 } = require("../controllers/productcontrollers");
+const { Product } = require("../models/Product");
 
 // Route to get all products
 router.get("/", getAllProduct);
@@ -15,7 +17,7 @@ router.get("/", getAllProduct);
 router.get("/:id", getProduct);
 
 // Route to create a new product
-router.post("/", createProduct);
+router.post("/", upload.single("productImage"), createProduct);
 
 // Route to update a product by ID
 router.put("/:id", modifyProduct);

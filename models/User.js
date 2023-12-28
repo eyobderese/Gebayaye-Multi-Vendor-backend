@@ -36,6 +36,7 @@ const UserSchema = new mongoose.Schema({
     enum: ["customer", "vendor", "admin"],
     required: true,
   },
+
   // customer Spesific field
 
   cart: [
@@ -55,8 +56,13 @@ const UserSchema = new mongoose.Schema({
 
   // customer Spesific field
 
-  licenseUrl: {
+  file: {
     type: String,
+  },
+
+  isPremium: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -74,7 +80,7 @@ function UserValidater(product) {
     phone: Joi.string().min(10).max(24).required(),
     email: Joi.string().required().min(5).max(255).email(),
     password: Joi.string().required().min(8).max(1024),
-    role: Joi.string().required().min(8).max(255),
+    role: Joi.string().required(),
   });
 
   return schem.validate(product);

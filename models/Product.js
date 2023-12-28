@@ -41,7 +41,6 @@ function validateProduct(product) {
     price: Joi.number().required(),
     stock: Joi.number().min(1).required(),
     category: Joi.string().required(),
-    imageurl: Joi.string().required(),
   });
 
   return schem.validate(product);

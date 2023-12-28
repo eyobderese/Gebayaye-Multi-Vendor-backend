@@ -39,7 +39,7 @@ const createProduct = async (req, res) => {
     }
 
     // Destructure validated data
-    const { name, price, description, stock, category, imageurl } =
+    const { name, price, description, stock, category } =
       validationResult.value;
 
     // Use async/await to create a new product in the database
@@ -49,8 +49,11 @@ const createProduct = async (req, res) => {
       description,
       stock,
       category,
-      imageurl,
     });
+
+    if (req.file) {
+      newProduct.imageurl = req.file.path;
+    }
 
     const savedProduct = await newProduct.save();
 
