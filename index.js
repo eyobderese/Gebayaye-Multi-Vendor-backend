@@ -6,6 +6,7 @@ const user = require("./routes/user");
 const auth = require("./routes/auth");
 const cart = require("./routes/Cart");
 const order = require("./routes/Order");
+const advert = require("./routes/advertisment");
 mongoose
   .connect("mongodb://0.0.0.0:27017/gebeyaye")
   .then(() => {
@@ -21,6 +22,7 @@ app.use("/api/user", user);
 app.use("/api/auth", auth);
 app.use("/api/cart", cart);
 app.use("/api/order", order);
+app.use("/api/advert", advert);
 
 const PORT = 3000;
 app.listen(PORT, () => {

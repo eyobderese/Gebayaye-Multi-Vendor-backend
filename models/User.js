@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["customer", "vendor", "admin"],
+    enum: ["customer", "vendor", "admin", "vendorPendding"],
     required: true,
   },
 
@@ -67,7 +67,10 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.generetAuthToken = function () {
-  const token = jwt.sign({ _id: this._id, role: this.role }, "jobman2008");
+  const token = jwt.sign(
+    { _id: this._id, role: this.role, isPremium: this.isPremium },
+    "jobman2008"
+  );
   return token;
 };
 

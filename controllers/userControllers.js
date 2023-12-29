@@ -47,7 +47,37 @@ const getUser = async (req, res) => {
   res.send(user);
 };
 
+const changeVendorStatus = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    let user = await User.findById(userId);
+    user.stutes = "Approved";
+    if (req.body.isPremium) {
+      user.isPremium = req.body.isPremium;
+    }
+
+    user = await user.save();
+
+    return res.send(user);
+  } catch (error) {
+    console.error("Error retrieving user:", error);
+    throw error;
+  }
+};
+
+const getVendorPending = async (req, res) => {
+  try {
+    const pendingVendor = await User.find({ role: "vendorPendding" }).exec();
+    return res.status(200).send(pendingVendor);
+  } catch (error) {
+    console.error("Error retrieving Users:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   userRegister,
   getUser,
+  changeVendorStatus,
+  getVendorPending,
 };

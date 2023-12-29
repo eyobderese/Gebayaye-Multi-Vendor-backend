@@ -8,6 +8,8 @@ function Premiumvendor(req, res, next) {
 
   try {
     const decoded = jwt.verify(token, "jobman2008");
+    console.log(decoded);
+
     if (!decoded.isPremium) {
       return res.status(401).send("you don't have Access");
     } else {
