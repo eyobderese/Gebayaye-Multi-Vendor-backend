@@ -1,4 +1,5 @@
 const { User, UserValidater } = require("../models/User");
+
 const bcrypt = require("bcrypt");
 
 const userRegister = async (req, res) => {
@@ -8,8 +9,16 @@ const userRegister = async (req, res) => {
       return res.status(400).send(validateResult.error.details[0].message);
     }
 
-    const { name, username, phone, email, password, role } =
-      validateResult.value;
+    const {
+      name,
+      username,
+      phone,
+      email,
+      password,
+      accountNumber,
+      role,
+      address,
+    } = validateResult.value;
 
     const usernameInUserDatabse = await User.findOne({ username: username });
     if (usernameInUserDatabse) {
@@ -21,8 +30,10 @@ const userRegister = async (req, res) => {
       username,
       phone,
       email,
+      accountNumber,
       password,
       role,
+      address, // this is optional do I have to chack wather the validate value have a address properte
     });
 
     if (req.file) {

@@ -31,6 +31,14 @@ const UserSchema = new mongoose.Schema({
     minlength: 5,
     maxlength: 255,
   },
+  accountNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  address: {
+    type: String,
+  },
   role: {
     type: String,
     enum: ["customer", "vendor", "admin", "vendorPendding"],
@@ -83,7 +91,10 @@ function UserValidater(product) {
     phone: Joi.string().min(10).max(24).required(),
     email: Joi.string().required().min(5).max(255).email(),
     password: Joi.string().required().min(8).max(1024),
+    accountNumber: Joi.string().required(),
     role: Joi.string().required(),
+    isPremium: Joi.Boolean().require(),
+    address: Joi.string(),
   });
 
   return schem.validate(product);

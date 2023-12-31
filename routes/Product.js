@@ -7,10 +7,14 @@ const {
   deleteProduct,
   getAllProduct,
   getProduct,
+  search,
 } = require("../controllers/productcontrollers");
 
 // Route to get all products
 router.get("/", getAllProduct);
+
+//Route to search product by category and name
+router.get("/search", search);
 
 // Route to get a product by ID
 router.get("/:id", getProduct);

@@ -3,11 +3,35 @@ const { Product, validateProduct } = require("../models/Product"); // Adjust the
 const getAllProduct = async (req, res) => {
   try {
     // Use async/await to fetch all products from the database
+
     const products = await Product.find();
     res.send(products);
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).send("Internal Server Error");
+  }
+};
+const search = async (req, res) => {
+  try {
+    const { category, productName } = req.query;
+    let query = {};
+
+    // Check if a category is selected
+    if (category && category !== "none") {
+      query.category = category;
+    }
+
+    // Check if a product name is provided
+    if (productName) {
+      // Case-insensitive search for product name
+      query.name = new RegExp(`.*${productName}.*`, "i");
+    }
+
+    // Perform the search using the constructed query
+    const results = await Product.find(query);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
   }
 };
 
@@ -121,4 +145,5 @@ module.exports = {
   createProduct,
   modifyProduct,
   deleteProduct,
+  search,
 };
