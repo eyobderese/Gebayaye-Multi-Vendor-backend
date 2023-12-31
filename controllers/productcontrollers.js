@@ -29,6 +29,7 @@ const search = async (req, res) => {
 
     // Perform the search using the constructed query
     const results = await Product.find(query);
+    res.status(200).send(results);
   } catch (error) {
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
