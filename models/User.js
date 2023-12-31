@@ -64,13 +64,16 @@ const UserSchema = new mongoose.Schema({
 
   // customer Spesific field
 
-  file: {
+  license: {
     type: String,
   },
 
   isPremium: {
     type: Boolean,
     default: false,
+  },
+  profilePicture: {
+    type: String,
   },
 });
 
@@ -93,7 +96,7 @@ function UserValidater(product) {
     password: Joi.string().required().min(8).max(1024),
     accountNumber: Joi.string().required(),
     role: Joi.string().required(),
-    isPremium: Joi.Boolean().require(),
+    isPremium: Joi.boolean().required(),
     address: Joi.string(),
   });
 
