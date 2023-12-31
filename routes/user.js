@@ -13,7 +13,7 @@ const {
 router.post("/", upload.single("document"), userRegister); // file it the input name of the front end
 //  in the front end form we have to put the atribute of enctype="mulipart/form-data"
 router.get("/me", auth, getUser);
-router.get("/", admin, getVendorPending);
+    { name: "license", maxCount: 1 },
 router.put("/:id", admin, changeVendorStatus);
 
 module.exports = router;

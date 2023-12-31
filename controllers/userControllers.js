@@ -17,6 +17,7 @@ const userRegister = async (req, res) => {
       password,
       accountNumber,
       role,
+      isPremium,
       address,
     } = validateResult.value;
 
@@ -33,11 +34,15 @@ const userRegister = async (req, res) => {
       accountNumber,
       password,
       role,
+      isPremium,
       address, // this is optional do I have to chack wather the validate value have a address properte
     });
 
-    if (req.file) {
-      user.file = req.file.path;
+    if (req.files) {
+      const { license, profilePicture } = req.files;
+      console.log(license[0], profilePicture[0]);
+      user.license = license[0].path;
+      user.profilePicture = profilePicture[0].path;
     }
 
     const salt = await bcrypt.genSalt(10);
