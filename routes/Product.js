@@ -8,7 +8,6 @@ const {
   getAllProduct,
   getProduct,
 } = require("../controllers/productcontrollers");
-const { Product } = require("../models/Product");
 
 // Route to get all products
 router.get("/", getAllProduct);
