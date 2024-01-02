@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 const { User } = require("../models/User");
 const router = express.Router();
 const Joi = require("joi");
+const upload = require("../middleware/Upload");
 
-router.post("/", async (req, res) => {
+router.post("/", upload.none(), async (req, res) => {
   const { error } = reqValidater(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);

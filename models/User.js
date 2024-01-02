@@ -94,9 +94,9 @@ function UserValidater(product) {
     phone: Joi.string().min(10).max(24).required(),
     email: Joi.string().required().min(5).max(255).email(),
     password: Joi.string().required().min(8).max(1024),
-    accountNumber: Joi.string().required(),
+    accountNumber: Joi.string(),
     role: Joi.string().required(),
-    isPremium: Joi.boolean().required(),
+    isPremium: Joi.boolean(),
     address: Joi.string(),
   });
 

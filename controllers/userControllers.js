@@ -38,7 +38,7 @@ const userRegister = async (req, res) => {
       address, // this is optional do I have to chack wather the validate value have a address properte
     });
 
-    if (req.files) {
+    if (req.files[0]) {
       const { license, profilePicture } = req.files;
       console.log(license[0], profilePicture[0]);
       user.license = license[0].path;
