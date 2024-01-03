@@ -11,9 +11,13 @@ router.post("/", upload.none(), async (req, res) => {
     return res.status(400).send(error.details[0].message);
   }
 
-  const user = await User.findOne({ username: req.body.username });
+  const user = await User.findOne({ username: req.body.name }); // frontend send name insted od username
   if (!user) {
     return res.status(400).send("Invalid usename or password");
+  }
+
+  if (user.role == "vendorPendding") {
+    return res.status(400).send("You are in the pendding state");
   }
   const isvalidPassword = await bcrypt.compare(
     req.body.password,
@@ -28,7 +32,7 @@ router.post("/", upload.none(), async (req, res) => {
 
 function reqValidater(req) {
   const schema = Joi.object({
-    username: Joi.string().required().min(5).max(255),
+    name: Joi.string().required().min(5).max(255), // name==username since front end is usning name
     password: Joi.string().required().min(8).max(1024),
   });
   return schema.validate(req);

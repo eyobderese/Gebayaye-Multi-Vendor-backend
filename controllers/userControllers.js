@@ -38,9 +38,8 @@ const userRegister = async (req, res) => {
       address, // this is optional do I have to chack wather the validate value have a address properte
     });
 
-    if (req.files[0]) {
+    if (role == "vendorPendding") {
       const { license, profilePicture } = req.files;
-      console.log(license[0], profilePicture[0]);
       user.license = license[0].path;
       user.profilePicture = profilePicture[0].path;
     }
@@ -67,7 +66,6 @@ const changeVendorStatus = async (req, res) => {
   try {
     const userId = req.params.id;
     let user = await User.findById(userId);
-    user.stutes = "Approved";
     if (req.body.isPremium) {
       user.isPremium = req.body.isPremium;
     }
@@ -91,9 +89,46 @@ const getVendorPending = async (req, res) => {
   }
 };
 
+const getuserByUsername = async (req, res) => {
+  // this is for shawing vendor status
+  try {
+    const userName = req.body.name;
+    console.log(userName);
+    const pendingVendor = await User.find({ username: userName }).exec();
+    if (!pendingVendor) {
+      return res
+        .status(404)
+        .send({ status: "user not register with this username" });
+    }
+
+    return res.status(200).send(pendingVendor);
+  } catch (error) {
+    console.error("Error retrieving Users:", error);
+    throw error;
+  }
+};
+
+const changePenddingVendor = async (req, res) => {
+  try {
+    const vendorId = req.params.id;
+    const approvedVendor = await User.findByIdAndUpdate(
+      vendorId,
+      { role: "vendor" },
+      { new: true }
+    ).exec();
+
+    return res.status(200).send(approvedVendor);
+  } catch (error) {
+    console.error("Error retrieving Users:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   userRegister,
   getUser,
   changeVendorStatus,
   getVendorPending,
+  getuserByUsername,
+  changePenddingVendor,
 };

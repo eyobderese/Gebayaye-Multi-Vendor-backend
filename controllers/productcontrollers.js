@@ -54,6 +54,18 @@ const getProduct = async (req, res) => {
   }
 };
 
+const getOwndProduct = async (req, res) => {
+  try {
+    console.log("hi there");
+    const ownerId = req.user._id;
+    const products = await Product.find({ owner: ownerId });
+    res.status(200).send(products);
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
 const createProduct = async (req, res) => {
   try {
     // Validate the product data using the model's validation function
@@ -75,7 +87,7 @@ const createProduct = async (req, res) => {
       stock,
       category,
     });
-
+    newProduct.owner = req.user._id;
     if (req.file) {
       newProduct.imageurl = req.file.path;
     }
@@ -101,13 +113,13 @@ const modifyProduct = async (req, res) => {
     }
 
     // Destructure validated data
-    const { name, price, description, stock, category, imageurl } =
+    const { name, price, description, stock, category } =
       validationResult.value;
 
     // Use async/await to update the product in the database
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
-      { name, price, description, stock, category, image },
+      { name, price, description, stock, category },
       { new: true } // Returns the updated product
     );
 
@@ -147,4 +159,5 @@ module.exports = {
   modifyProduct,
   deleteProduct,
   search,
+  getOwndProduct,
 };

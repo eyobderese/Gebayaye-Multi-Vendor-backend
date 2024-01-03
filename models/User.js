@@ -49,15 +49,39 @@ const UserSchema = new mongoose.Schema({
 
   cart: [
     // cart: [{prduct:...., quantity:....}]
+
     {
-      product: {
+      productId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
-      quantity: {
+      name: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+      },
+      price: {
         type: Number,
         required: true,
-        default: 1,
+      },
+      owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        requred: true,
+      },
+      stock: {
+        type: Number,
+        required: true,
+      },
+      category: {
+        type: String,
+        required: true,
+      },
+      imageurl: {
+        type: String,
+        required: true,
       },
     },
   ],

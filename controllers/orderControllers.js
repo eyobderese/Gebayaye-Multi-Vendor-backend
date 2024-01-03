@@ -12,10 +12,10 @@ const getOrder = async (req, res) => {
   }
 };
 
-const getOrderById = async (req, res) => {
+const getUserOrder = async (req, res) => {
   try {
-    const orderId = req.params.id;
-    const order = await Order.findById(orderId);
+    const userId = req.user._id;
+    const order = await Order.find({ user: userId });
 
     if (!order) {
       return res.status(404).send("order not found");
@@ -34,24 +34,33 @@ const addOrder = async (req, res) => {
     //   then from the quantity and price i will calculate the price of the order and
     //   i will add to the total-price
     const userId = req.user._id;
-    let order = await Order.findOne({ user: userId });
 
-    if (!order) {
-      order = new Order({ user: userId, products: [], totalAmount: 0 });
-    }
+    // before creating a Order we use req.body.senderAccount and check bank data-base if that account has enough money
 
-    const productId = req.body.productId;
-    const quantity = parseInt(req.body.quantity);
-    const product = await Product.findById(productId);
+    const order = await new Order({
+      user: userId,
+      products: req.body.productDetail, // from front end I will get an array of product from frontEnd but when i stored the data do I have to populate
+      totalAmount: req.body.totalAmount,
+      deliveryDate: req.body.date,
+    });
 
-    const price = product.price;
-
-    order.products.push({ product: productId, quantity });
-    order.totalAmount += quantity * price;
+    // here using products array i modify stock number----------------------============
 
     const savedOrder = await order.save();
 
     res.status(201).send(savedOrder);
+
+    // let order = await Order.findOne({ user: userId });
+    // if (!order) {
+    //   order = new Order({ user: userId, products: [], totalAmount: 0 });
+    // }
+    // const productId = req.body.productId;
+    // const quantity = parseInt(req.body.quantity);
+    // const price = req.price
+    // order.products.push({ product: productId, quantity });
+    // order.totalAmount=req.body.totalAmount
+
+    // const savedOrder = await order.save();
   } catch (error) {
     console.error("Error creating Order:", error);
     res.status(500).send("Internal Server Error");
@@ -103,4 +112,5 @@ module.exports = {
   getOrder,
   addOrder,
   deleteOrder,
+  getUserOrder,
 };

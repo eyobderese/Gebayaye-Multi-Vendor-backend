@@ -1,4 +1,5 @@
 const { User } = require("../models/User");
+const { Product } = require("../models/Product");
 
 const getCartItem = async (req, res) => {
   try {
@@ -21,27 +22,33 @@ const addCartItem = async (req, res) => {
       return res.status(404).send({ error: "User not found" });
     }
 
-    const { product, quantity } = req.body;
+    // const product = req.body.item;  // here insted naol will send a product id thire for i have to populate using that id
+
+    const productId = req.body.productId; // he must be give product id as productID
+
+    const product = await Product.findById(productId);
 
     // Check if the product is already in the user's cart
     // console.log(user.cart[0]);
     // console.log(user.cart[0]._id.toString());
     // console.log(product);
 
-    const existingCartItem = user.cart.find((item) => item.product == product);
-    console.log(existingCartItem);
+    // const existingCartItem = user.cart.find((item) => item.product == product);
+    // console.log(existingCartItem);
 
-    if (existingCartItem) {
-      // If the product is already in the cart, update the quantity
-      existingCartItem.quantity += parseFloat(quantity);
-    } else {
-      // If the product is not in the cart, add it
-      user.cart.push({ product: product, quantity: parseFloat(quantity) }); // why insted of product _id stored in the cart
+    // if (existingCartItem) {
+    //   // If the product is already in the cart, update the quantity
+    //   existingCartItem.quantity += parseFloat(quantity);
+    // } else {
+    // If the product is not in the cart, add it
+    if (!product) {
+      return res.status(404).send("Product is not Found");
     }
+    user.cart.push(product); // why insted of product _id stored in the cart
+    // }
 
     // Save the updated user document with the new cart information
     // console.log(user);
-    console.log(user);
     user = await user.save();
 
     // Use async/await to create a new product in the database
@@ -61,17 +68,20 @@ const removeCartItem = async (req, res) => {
 
     // Retrieve the user from the database
     const user = await User.findById(userId);
+    console.log(user);
 
     if (!user) {
       return res.status(404).send({ error: "User not found" });
     }
 
-    const productIdToRemove = req.params.productId;
+    const productIdToRemove = req.params.id; // id = producId which removed
 
     // Find the index of the product in the user's cart
     const cartItemIndex = user.cart.findIndex(
-      (item) => item.product == productIdToRemove
+      (item) => item._id == productIdToRemove // here the cart schema is like thsi [ {_id:..., name:...},{_id:...,name:..}]
     );
+
+    console.log(cartItemIndex);
 
     if (cartItemIndex === -1) {
       return res.status(404).send({ error: "Product not found in the cart" });

@@ -8,6 +8,8 @@ const {
   getUser,
   changeVendorStatus,
   getVendorPending,
+  getuserByUsername,
+  changePenddingVendor,
 } = require("../controllers/userControllers");
 
 router.post(
@@ -21,6 +23,8 @@ router.post(
 //  in the front end form we have to put the atribute of enctype="mulipart/form-data"
 router.get("/me", auth, getUser);
 router.get("/", admin, getVendorPending);
-router.put("/:id", admin, changeVendorStatus);
+router.put("/cangeVendorStatus/:id", admin, changeVendorStatus);
+router.put("/changePendding/:id", admin, changePenddingVendor);
+router.post("/vendor", upload.none(), getuserByUsername); // this end point creatid to show the stutes of the vendor while the veondor trying to login
 
 module.exports = router;

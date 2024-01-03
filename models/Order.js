@@ -13,7 +13,7 @@ const orderSchema = new mongoose.Schema({
     },
   ],
   totalAmount: { type: Number, required: true },
-  orderDate: { type: Date, default: Date.now },
+  deliveryDate: { type: String, required: true }, // type must be date
 });
 
 const Order = mongoose.model("Order", orderSchema);
