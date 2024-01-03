@@ -22,7 +22,7 @@ const createAdvert = async (req, res) => {
 };
 const getAdvert = async (req, res) => {
   try {
-    if (req.user.role === "admin") {
+    if (req.user.role === "Admin") {
       // Admin gets only pending advertisements
       const pendingAdvertisements = await Advertisement.find({
         status: "Pending",

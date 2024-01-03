@@ -1,15 +1,15 @@
 const jwt = require("jsonwebtoken");
 
 function admin(req, res, next) {
-  const token = req.header("authtoken");
+  const token = req.header("authToken");
   if (!token) {
     return res.status(401).send("You dont have Access");
   }
 
   try {
     const decoded = jwt.verify(token, "jobman2008");
-    if (decoded.role != "admin") {
-      return res.status(401).send("Bad request");
+    if (decoded.role != "Admin") {
+      return res.status(401).send("Unauthorized|");
     } else {
       next();
     }

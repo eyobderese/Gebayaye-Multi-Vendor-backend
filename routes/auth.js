@@ -27,7 +27,7 @@ router.post("/", upload.none(), async (req, res) => {
     return res.status(400).send("Invalid usename or password");
   }
   const token = user.generetAuthToken(); // we call the method in the user model on the instance of the model not exactly on the model
-  res.status(200).send(token);
+  res.status(200).send({ token });
 });
 
 function reqValidater(req) {

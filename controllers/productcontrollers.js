@@ -90,6 +90,7 @@ const createProduct = async (req, res) => {
     newProduct.owner = req.user._id;
     if (req.file) {
       newProduct.imageurl = req.file.path;
+      (imageurl) => imageUrl;
     }
 
     const savedProduct = await newProduct.save();

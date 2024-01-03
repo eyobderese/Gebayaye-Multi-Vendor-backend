@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["Buyer", "Vendor", "admin", "vendorPendding"], // customer=> buyer vendor=>Vendor
+    enum: ["Buyer", "Vendor", "Admin", "vendorPendding"], // customer=> buyer vendor=>Vendor
     required: true,
   },
 

@@ -51,7 +51,7 @@ const userRegister = async (req, res) => {
 
     user = await user.save();
     const token = user.generetAuthToken();
-    res.status(200).header("authtoken", token).send({ name, username });
+    res.status(200).header("authToken", token).send({ name, username });
   } catch (error) {
     console.error("Error creating User:", error);
     res.status(500).send("Internal Server Error");
