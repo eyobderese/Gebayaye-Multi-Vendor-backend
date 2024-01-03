@@ -1,14 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 function vendor(req, res, next) {
-  const token = req.header("x-auth-token");
+  const token = req.header("authtoken");
   if (!token) {
     return res.status(401).send("You dont have Access");
   }
 
   try {
     const decoded = jwt.verify(token, "jobman2008");
-    if (decoded.role != "vendor") {
+    if (decoded.role != "Vendor") {
       return res.status(401).send("Bad request");
     } else {
       next();

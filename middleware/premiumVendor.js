@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 
 function Premiumvendor(req, res, next) {
-  const token = req.header("x-auth-token");
+  const token = req.header("authtoken");
   if (!token) {
     return res.status(401).send("You dont have Access");
   }

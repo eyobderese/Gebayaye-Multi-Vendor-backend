@@ -26,14 +26,12 @@ const UserSchema = new mongoose.Schema({
     maxlength: 1024,
   },
   phone: {
-    type: String,
+    type: Number,
     required: true,
-    minlength: 5,
-    maxlength: 255,
   },
   accountNumber: {
     type: String,
-    required: true,
+
     unique: true,
   },
   address: {
@@ -41,7 +39,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["customer", "vendor", "admin", "vendorPendding"],
+    enum: ["Buyer", "Vendor", "admin", "vendorPendding"], // customer=> buyer vendor=>Vendor
     required: true,
   },
 
@@ -99,6 +97,10 @@ const UserSchema = new mongoose.Schema({
   profilePicture: {
     type: String,
   },
+
+  status: {
+    type: String,
+  },
 });
 
 UserSchema.methods.generetAuthToken = function () {
@@ -115,13 +117,14 @@ function UserValidater(product) {
   const schem = Joi.object({
     name: Joi.string().required().min(5).max(255),
     username: Joi.string().required().min(5).max(255),
-    phone: Joi.string().min(10).max(24).required(),
+    phone: Joi.Number().required(),
     email: Joi.string().required().min(5).max(255).email(),
     password: Joi.string().required().min(8).max(1024),
-    accountNumber: Joi.string(),
+    accountNumber: Joi.string().required(),
     role: Joi.string().required(),
     isPremium: Joi.boolean(),
     address: Joi.string(),
+    status: Joi.string(),
   });
 
   return schem.validate(product);

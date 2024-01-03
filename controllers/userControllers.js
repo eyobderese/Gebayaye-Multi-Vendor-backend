@@ -19,6 +19,7 @@ const userRegister = async (req, res) => {
       role,
       isPremium,
       address,
+      status,
     } = validateResult.value;
 
     const usernameInUserDatabse = await User.findOne({ username: username });
@@ -35,10 +36,11 @@ const userRegister = async (req, res) => {
       password,
       role,
       isPremium,
-      address, // this is optional do I have to chack wather the validate value have a address properte
+      address,
+      status, // this is optional do I have to chack wather the validate value have a address properte
     });
 
-    if (role == "vendorPendding") {
+    if (role == "Vendor") {
       const { license, profilePicture } = req.files;
       user.license = license[0].path;
       user.profilePicture = profilePicture[0].path;
@@ -49,7 +51,7 @@ const userRegister = async (req, res) => {
 
     user = await user.save();
     const token = user.generetAuthToken();
-    res.header("x-auth-token", token).send({ name, username });
+    res.header("authtoken", token).send({ name, username });
   } catch (error) {
     console.error("Error creating User:", error);
     res.status(500).send("Internal Server Error");
@@ -81,7 +83,7 @@ const changeVendorStatus = async (req, res) => {
 
 const getVendorPending = async (req, res) => {
   try {
-    const pendingVendor = await User.find({ role: "vendorPendding" }).exec();
+    const pendingVendor = await User.find({ status: "pendding" }).exec();
     return res.status(200).send(pendingVendor);
   } catch (error) {
     console.error("Error retrieving Users:", error);
@@ -113,7 +115,7 @@ const changePenddingVendor = async (req, res) => {
     const vendorId = req.params.id;
     const approvedVendor = await User.findByIdAndUpdate(
       vendorId,
-      { role: "vendor" },
+      { role: "Vendor", status: "approved" },
       { new: true }
     ).exec();
 
