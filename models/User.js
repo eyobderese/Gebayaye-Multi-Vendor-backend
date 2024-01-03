@@ -86,7 +86,7 @@ const UserSchema = new mongoose.Schema({
 
   // customer Spesific field
 
-  license: {
+  licence: {
     type: String,
   },
 
@@ -117,7 +117,7 @@ function UserValidater(product) {
   const schem = Joi.object({
     name: Joi.string().required().min(5).max(255),
     username: Joi.string().required().min(5).max(255),
-    phone: Joi.Number().required(),
+    phone: Joi.number().required(),
     email: Joi.string().required().min(5).max(255).email(),
     password: Joi.string().required().min(8).max(1024),
     accountNumber: Joi.string().required(),

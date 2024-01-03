@@ -15,7 +15,7 @@ const {
 router.post(
   "/",
   upload.fields([
-    { name: "license", maxCount: 1, optional: true },
+    { name: "licence", maxCount: 1, optional: true },
     { name: "profilePicture", maxCount: 1, optional: true },
   ]),
   userRegister

@@ -41,8 +41,8 @@ const userRegister = async (req, res) => {
     });
 
     if (role == "Vendor") {
-      const { license, profilePicture } = req.files;
-      user.license = license[0].path;
+      const { licence, profilePicture } = req.files;
+      user.licence = licence[0].path;
       user.profilePicture = profilePicture[0].path;
     }
 
@@ -51,7 +51,7 @@ const userRegister = async (req, res) => {
 
     user = await user.save();
     const token = user.generetAuthToken();
-    res.header("authtoken", token).send({ name, username });
+    res.status(200).header("authtoken", token).send({ name, username });
   } catch (error) {
     console.error("Error creating User:", error);
     res.status(500).send("Internal Server Error");
