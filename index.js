@@ -20,7 +20,7 @@ mongoose
     console.log("somting bad happen", e);
   });
 
-app.use(cors);
+app.use(cors());
 
 app.use(express.json());
 app.use("/api/product", product);

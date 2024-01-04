@@ -9,6 +9,7 @@ function admin(req, res, next) {
   try {
     const decoded = jwt.verify(token, "jobman2008");
     if (decoded.role != "Admin") {
+      console.log(decoded);
       return res.status(401).send("Unauthorized|");
     } else {
       next();

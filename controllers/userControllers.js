@@ -91,6 +91,16 @@ const getVendorPending = async (req, res) => {
   }
 };
 
+const getVendorApproved = async (req, res) => {
+  try {
+    const approvedVendor = await User.find({ status: "approved" }).exec();
+    return res.status(200).send(approvedVendor);
+  } catch (error) {
+    console.error("Error retrieving Users:", error);
+    throw error;
+  }
+};
+
 const getuserByUsername = async (req, res) => {
   // this is for shawing vendor status
   try {
@@ -126,6 +136,26 @@ const changePenddingVendor = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    // Use Mongoose to find and delete the user by ID
+    const deleted_User = await User.findByIdAndDelete(userId);
+
+    if (deleted_User) {
+      res
+        .status(200)
+        .send({ message: "User deleted successfully", deleted_User });
+    } else {
+      res.status(404).send({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   userRegister,
   getUser,
@@ -133,4 +163,6 @@ module.exports = {
   getVendorPending,
   getuserByUsername,
   changePenddingVendor,
+  getVendorApproved,
+  deleteUser,
 };
