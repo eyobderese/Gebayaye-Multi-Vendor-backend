@@ -1,5 +1,6 @@
 const Order = require("../models/Order"); // Adjust the path based on your project structure
 const { Product } = require("../models/Product");
+const {User} = require ("../models/User");
 
 const getOrder = async (req, res) => {
   try {
@@ -36,17 +37,21 @@ const addOrder = async (req, res) => {
     const userId = req.user._id;
 
     // before creating a Order we use req.body.senderAccount and check bank data-base if that account has enough money
+    const user = await User.findById(userId);
 
-    const order = await new Order({
+    const order = new Order({
       user: userId,
+      userName: user.name,
       products: req.body.productDetail, // from front end I will get an array of product from frontEnd but when i stored the data do I have to populate
       totalAmount: req.body.totalAmount,
       deliveryDate: req.body.date,
+      deliveryLocation: req.body.location
     });
 
     // here using products array i modify stock number----------------------============
 
     const savedOrder = await order.save();
+    console.log("success");
 
     res.status(201).send(savedOrder);
 

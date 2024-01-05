@@ -1,5 +1,5 @@
 const { Product, validateProduct } = require("../models/Product"); // Adjust the path based on your project structure
-
+const {User} = require("../models/User");
 const getAllProduct = async (req, res) => {
   try {
     // Use async/await to fetch all products from the database
@@ -16,18 +16,15 @@ const search = async (req, res) => {
     const { category, productName } = req.query;
     let query = {};
 
-    // Check if a category is selected
     if (category && category !== "none") {
       query.category = category;
     }
 
-    // Check if a product name is provided
+    
     if (productName) {
-      // Case-insensitive search for product name
       query.name = new RegExp(`.*${productName}.*`, "i");
     }
 
-    // Perform the search using the constructed query
     const results = await Product.find(query);
     res.status(200).send(results);
   } catch (error) {
@@ -88,9 +85,12 @@ const createProduct = async (req, res) => {
       category,
     });
     newProduct.owner = req.user._id;
+
     if (req.file) {
-      newProduct.imageurl = req.file.path;
-      (imageurl) => imageUrl;
+      const serverBaseURL = 'http://localhost:3000';
+
+      newProduct.imageurl = `${serverBaseURL}/public/images/${req.file.filename}`
+      console.log(newProduct);
     }
 
     const savedProduct = await newProduct.save();
@@ -105,7 +105,6 @@ const createProduct = async (req, res) => {
 const modifyProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-
     // Validate the product data using the model's validation function
     const validationResult = validateProduct(req.body);
 
@@ -134,6 +133,9 @@ const modifyProduct = async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 };
+
+
+
 
 const deleteProduct = async (req, res) => {
   try {

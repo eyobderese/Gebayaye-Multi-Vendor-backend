@@ -39,7 +39,6 @@ const cartSchema = new mongoose.Schema({
       imageurl: {
         type: String,
         required: true,
-        b,
       },
     },
   ],

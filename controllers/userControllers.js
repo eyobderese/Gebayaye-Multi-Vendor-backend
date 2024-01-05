@@ -42,8 +42,13 @@ const userRegister = async (req, res) => {
 
     if (role == "Vendor") {
       const { licence, profilePicture } = req.files;
-      user.licence = licence[0].path;
-      user.profilePicture = profilePicture[0].path;
+      const serverBaseURL = 'http://localhost:3000'; 
+
+      // Transform local file paths to server URLs
+      user.licence = `${serverBaseURL}/public/images/${licence[0].filename}`;
+      user.profilePicture = `${serverBaseURL}/public/images/${profilePicture[0].filename}`;
+      console.log(user.licence);
+      console.log(user.profilePicture);
     }
 
     const salt = await bcrypt.genSalt(10);

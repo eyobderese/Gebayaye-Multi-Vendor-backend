@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require('path');
 const cors = require("cors");
 const app = express();
 const product = require("./routes/Product");
@@ -21,7 +22,7 @@ mongoose
   });
 
 app.use(cors());
-
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use("/api/product", product);
 app.use("/api/user", user);

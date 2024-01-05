@@ -2,19 +2,20 @@ const Advertisement = require("../models/Advertisement");
 
 const createAdvert = async (req, res) => {
   try {
+    console.log(req.body);
     let newAdvert = new Advertisement({
       userId: req.user._id,
-      content: req.body.content,
+      // content: req.body.content,
       status: "Pending",
     });
-
+    
     if (req.file) {
-      newAdvert.banner = req.file.path;
+      const serverBaseURL = 'http://localhost:3000';
+      newAdvert.banner = `${serverBaseURL}/public/images/${req.file.filename}`;
     }
+    const savedAdvert = await newAdvert.save();
 
-    newAdvert = await newAdvert.save();
-
-    res.status(200).send(newAdvert);
+    res.status(200).send(savedAdvert);
   } catch (error) {
     console.error("Error creating Advert:", error);
     res.status(500).send("Internal Server Error");
@@ -47,7 +48,7 @@ const changeAdvertStatus = async (req, res) => {
     let advert = await Advertisement.findById(advertId);
 
     if (!advert) {
-      return res.status(400).send("THE DVERTISMENT IS NOT AVAILABLE ");
+      return res.status(400).send("THE ADVERTISMENT IS NOT AVAILABLE ");
     }
     advert.status = "Approved";
 
