@@ -90,10 +90,16 @@ const UserSchema = new mongoose.Schema({
     type: String,
   },
 
+  isPaid:{
+    type: String,
+    default: false    
+  },
+
   isPremium: {
     type: Boolean,
     default: false,
   },
+  
   profilePicture: {
     type: String,
   },

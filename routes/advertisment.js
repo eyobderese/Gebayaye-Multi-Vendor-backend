@@ -8,12 +8,18 @@ const {
   getAdvert,
   createAdvert,
   changeAdvertStatus,
+  deleteAdvert,
+  allAdverts
 } = require("../controllers/advertisementControllers");
 
 route.get("/", auth, getAdvert);
 
 route.post("/", premiumVendor, Upload.single("banner"), auth, createAdvert);
 
+route.get('/all', allAdverts)
+
 route.put("/:id", admin, changeAdvertStatus);
+
+route.delete('/:id', admin, deleteAdvert)
 
 module.exports = route;

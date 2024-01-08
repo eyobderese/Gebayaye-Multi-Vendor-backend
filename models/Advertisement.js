@@ -6,12 +6,15 @@ const advertisementSchema = new mongoose.Schema({
     ref: "User", // Assuming you have a User model
     required: true,
   },
-  // content: {
-  //   type: String,
-  //   required: true,
-  //   minlength: 20,
-  //   maxlength: 255,
-  // },
+  description: {
+    type: String,
+    required: true,
+    minlength: 10,
+    maxlength: 255,
+  },
+  userName:{
+    type: String,
+  },
   status: {
     type: String,
     enum: ["Pending", "Approved", "Rejected"],

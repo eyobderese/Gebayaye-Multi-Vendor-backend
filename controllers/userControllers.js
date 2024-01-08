@@ -17,6 +17,7 @@ const userRegister = async (req, res) => {
       password,
       accountNumber,
       role,
+      isPaid,
       isPremium,
       address,
       status,
@@ -35,6 +36,7 @@ const userRegister = async (req, res) => {
       accountNumber,
       password,
       role,
+      isPaid,
       isPremium,
       address,
       status, // this is optional do I have to chack wather the validate value have a address properte
@@ -44,7 +46,6 @@ const userRegister = async (req, res) => {
       const { licence, profilePicture } = req.files;
       const serverBaseURL = 'http://localhost:3000'; 
 
-      // Transform local file paths to server URLs
       user.licence = `${serverBaseURL}/public/images/${licence[0].filename}`;
       user.profilePicture = `${serverBaseURL}/public/images/${profilePicture[0].filename}`;
       console.log(user.licence);
