@@ -1,11 +1,10 @@
 const BankAccount = require("../models/BankAccount");
 const { User } = require("../models/User");
-const PAYMENT_FOR_PREMIUM = 100;
 const premiumPayment = async (req, res) => {
   try {
     const accountNumber = req.body.accountNumber;
     const userName = req.body.name;
-
+    const PAYMENT_FOR_PREMIUM = req.body.premiumType;
     // Use async/await to fetch the product from the database
     let account = await BankAccount.findOne({ accountNumber: accountNumber });
 

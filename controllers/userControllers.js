@@ -17,7 +17,6 @@ const userRegister = async (req, res) => {
       password,
       accountNumber,
       role,
-      isPaid,
       isPremium,
       address,
       status,
@@ -36,7 +35,6 @@ const userRegister = async (req, res) => {
       accountNumber,
       password,
       role,
-      isPaid,
       isPremium,
       address,
       status, // this is optional do I have to chack wather the validate value have a address properte
