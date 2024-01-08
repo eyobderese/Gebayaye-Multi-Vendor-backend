@@ -16,8 +16,12 @@ router.post("/", upload.none(), async (req, res) => {
     return res.status(400).send("Invalid usename or password");
   }
 
-  if (user.role == "vendorPendding") {
+  if (user.status == "pendding") {
     return res.status(400).send("You are in the pendding state");
+  }
+
+  if (user.payment == "pendding") {
+    return res.status(400).send("The payment is in pending state");
   }
   const isvalidPassword = await bcrypt.compare(
     req.body.password,

@@ -44,12 +44,14 @@ const userRegister = async (req, res) => {
 
     if (role == "Vendor") {
       const { licence, profilePicture } = req.files;
-      const serverBaseURL = 'http://localhost:3000'; 
+      const serverBaseURL = "http://localhost:3000";
 
       user.licence = `${serverBaseURL}/public/images/${licence[0].filename}`;
       user.profilePicture = `${serverBaseURL}/public/images/${profilePicture[0].filename}`;
-      console.log(user.licence);
-      console.log(user.profilePicture);
+
+      if (isPremium) {
+        user.payment = "pendding";
+      }
     }
 
     const salt = await bcrypt.genSalt(10);

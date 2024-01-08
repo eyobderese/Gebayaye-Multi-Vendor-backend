@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require('path');
+const path = require("path");
 const cors = require("cors");
 const app = express();
 const product = require("./routes/Product");
@@ -10,6 +10,8 @@ const cart = require("./routes/Cart");
 const order = require("./routes/Order");
 const advert = require("./routes/advertisment");
 const message = require("./routes/message");
+const payment = require("./routes/payment");
+
 // const mongoURL ="mongodb+srv://eyobderese:jobman2008@cluster0.32apy9n.mongodb.net/?retryWrites=true&w=majority";
 const mongoURL = "mongodb://0.0.0.0:27017/gebeyaye";
 mongoose
@@ -22,7 +24,7 @@ mongoose
   });
 
 app.use(cors());
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use("/api/product", product);
 app.use("/api/user", user);
@@ -31,6 +33,7 @@ app.use("/api/cart", cart);
 app.use("/api/order", order);
 app.use("/api/advert", advert);
 app.use("/api/message", message);
+app.use("/api/payment", payment);
 
 const PORT = 3000;
 app.listen(PORT, () => {
